@@ -5,6 +5,8 @@
         </div>
         <div id="main-container" class="mainContainerClass">
         </div>
+        <div id="counter">
+        </div>
     </body> 
     <style>
         .mainContainerClass {
@@ -25,7 +27,7 @@
             width: 100%;
             height: 100%;
         }
-        .imageContainer {
+        .imageContainerClass {
             border: 1px solid #FF0000;
             width: 600px;
             height: 350px;
@@ -40,29 +42,63 @@
         }
     </style>   
     <script>
-        // Create main picture div
-        let newDiv = document.createElement('div');
-        newDiv.className = 'imageContainer';
+        const BASE_IMAGE_URL = "http://lorempixel.com/600/350/?";
+        const MIN_IMAGES = 0;
+        const MAX_IMAGES = 30;
+
+        let arrayOfImageSources = [];
+        let currentIndex = 0;
+        let image;
+        let counterElement;
+
+        function createImageArray(max) {
+            for (let i = 0; i < max; i++) {
+                arrayOfImageSources.push(BASE_IMAGE_URL + i);
+            }
+        }
+
+        function createContainer() {
+            image = createImage(currentIndex);
+            counterElement = document.getElementById('counter');
+            if (counterElement) {
+                counterElement.innerText = getCounterText();
+            }
         
-        document.getElementById('main-container').appendChild(createButton("<", () => {
-            onClickButton('left');
-        }));
-        document.getElementById('main-container').appendChild(newDiv);
-        document.getElementById('main-container').appendChild(createButton(">", () => {
-            onClickButton('right');
-        }));
-        
+            document.getElementById('main-container').appendChild(createButton("<", () => {
+                onClickButton('left');
+            }));
+            document.getElementById('main-container').appendChild(image);
+            document.getElementById('main-container').appendChild(createButton(">", () => {
+                onClickButton('right');
+            }));
+        }
+
         function onClickButton(direction) {
             switch (direction) {
                 case 'left':
-                    console.log("Clicked Left");
-                break;
+                    currentIndex--;
+                    if (currentIndex < MIN_IMAGES) {
+                        currentIndex = MAX_IMAGES - 1;
+                    }
+                    image.src = arrayOfImageSources[currentIndex];
+                    break;
                 case 'right':
-                    console.log("Clicked Right");
-                break;
+                    currentIndex++;
+                    if (currentIndex >= MAX_IMAGES-1) {
+                        currentIndex = 0;
+                    }
+                    image.src = arrayOfImageSources[currentIndex];
+                    break;
                 default:
-                break;
+                    break;
             }
+            if (counterElement) {
+                counterElement.innerText = getCounterText();
+            }
+        }
+
+        function getCounterText() {
+            return `${currentIndex + 1} / ${MAX_IMAGES}`;
         }
 
         function createButton(text, onButtonClick) {
@@ -72,10 +108,16 @@
             button.addEventListener('click', () => onButtonClick());
             return button;
         }
-        /* for (let i = 0; i < 30; i++) {
-            let newDiv = document.createElement('div');
-            newDiv.className = 'imageContainer';
-            document.getElementById('main-container').appendChild(newDiv);
-        } */
+
+        function createImage() {
+            let image = document.createElement('img');
+            image.className = 'imageContainerClass';
+            image.src = BASE_IMAGE_URL + currentIndex;
+            return image;
+        }
+
+        createImageArray(MAX_IMAGES);
+        createContainer();
+
     </script>
 </html>
