@@ -1,0 +1,32 @@
+/* https://css-tricks.com/forums/topic/center-div-on-screen-with-flexbox/ */
+.mainContainerClass {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    -webkit-box-flex-direction: row;
+    -moz-box-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.imageContainerClass {
+    border: 1px solid #FF0000;
+    width: 600px;
+    height: 350px;
+}
+.button {
+    color: #000000;
+    background-color: #CCCCCC;
+    width: 40px;
+    height: 40px;
+    font-size: 36px;
+    cursor: pointer;
+}

@@ -1,4 +1,7 @@
 <html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
     <body>
         <div>
             Gallery Component
@@ -9,158 +12,10 @@
         </div>
     </body> 
     <style>
-        .mainContainerClass {
-            display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-            display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-            display: -webkit-flex;     /* NEW - Chrome */
-            display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
-            -webkit-box-flex-direction: row;
-            -moz-box-flex-direction: row;
-            -webkit-flex-direction: row;
-            flex-direction: row;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .imageContainerClass {
-            border: 1px solid #FF0000;
-            width: 600px;
-            height: 350px;
-        }
-        .button {
-            color: #000000;
-            background-color: #CCCCCC;
-            width: 40px;
-            height: 40px;
-            font-size: 36px;
-            cursor: pointer;
-        }
-    </style>   
-    <script>
-        const BASE_IMAGE_URL = "http://lorempixel.com/600/350/?";
-        const MIN_IMAGES = 0;
-        const MAX_IMAGES = 30;
-
-        let arrayOfImageSources = [];
-        let currentIndex = 0;
-        let image;
-        let counterElement;
-
-        // Used for touch events
-        let xDown = null;                                                        
-        let yDown = null;    
-
-        function createImageArray(max) {
-            for (let i = 0; i < max; i++) {
-                arrayOfImageSources.push(BASE_IMAGE_URL + i);
-            }
-        }
-
-        function createContainer() {
-            image = createImage(currentIndex);
-            counterElement = document.getElementById('counter');
-            if (counterElement) {
-                counterElement.innerText = getCounterText();
-            }
         
-            document.getElementById('main-container').appendChild(createButton("<", () => {
-                onClickButton('left');
-            }));
-            document.getElementById('main-container').appendChild(image);
-            document.getElementById('main-container').appendChild(createButton(">", () => {
-                onClickButton('right');
-            }));
-        }
-
-        function updateImageSource(direction) {
-            switch (direction) {
-                case 'left':
-                    currentIndex--;
-                    if (currentIndex < MIN_IMAGES) {
-                        currentIndex = MAX_IMAGES - 1;
-                    }
-                    image.src = arrayOfImageSources[currentIndex];
-                    break;
-                case 'right':
-                    currentIndex++;
-                    if (currentIndex >= MAX_IMAGES-1) {
-                        currentIndex = 0;
-                    }
-                    image.src = arrayOfImageSources[currentIndex];
-                    break;
-                default:
-                    break;
-            }
-            if (counterElement) {
-                counterElement.innerText = getCounterText();
-            }
-        }
-
-        function onClickButton(direction) {
-            updateImageSource(direction);
-        }
-
-        function getCounterText() {
-            return `${currentIndex + 1} / ${MAX_IMAGES}`;
-        }
-
-        function createButton(text, onButtonClick) {
-            let button = document.createElement('div');
-            button.className = 'button';
-            button.innerText = text;
-            button.addEventListener('click', () => onButtonClick());
-            return button;
-        }
-
-        function createImage() {
-            let image = document.createElement('img');
-            image.className = 'imageContainerClass';
-            image.src = BASE_IMAGE_URL + currentIndex;
-            image.addEventListener('touchstart', (event) => {
-                console.log("touching started...");
-                xDown = event.touches[0].clientX;                                      
-                yDown = event.touches[0].clientY;
-            });
-            image.addEventListener('touchmove', (event) => {
-                if ( ! xDown || ! yDown ) {
-                    return;
-                }
-
-                console.log("touching moving...");
-
-                var xUp = event.touches[0].clientX;                                    
-                var yUp = event.touches[0].clientY;
-
-                var xDiff = xDown - xUp;
-                var yDiff = yDown - yUp;
-
-                if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
-                    if ( xDiff > 0 ) {
-                        updateImageSource('right');
-                    } else {
-                        updateImageSource('left');
-                    }                       
-                } else {
-                    if ( yDiff > 0 ) {
-                        /* up swipe */ 
-                    } else { 
-                        /* down swipe */
-                    }                                                                 
-                }
-                /* reset values */
-                xDown = null;
-                yDown = null;        
-                        });
-                return image;
-            }
-
-        createImageArray(MAX_IMAGES);
-        createContainer();
-
+    </style>   
+    <script src="gallery.js" />
+    <script>
+        window.onload = gallery();
     </script>
 </html>
