@@ -70,6 +70,9 @@ var my_gallery = (function gallery(max, imageSources) {
             xDown = event.touches[0].clientX;                                      
             yDown = event.touches[0].clientY;
         });
+
+        // Create the touch-events for swipe left and right.
+        // Can also easily add up and down swipes by looking at the yDiff.
         image.addEventListener('touchmove', (event) => {
             if ( ! xDown || ! yDown ) {
                 return;
@@ -89,9 +92,9 @@ var my_gallery = (function gallery(max, imageSources) {
                 }                       
             } else {
                 if ( yDiff > 0 ) {
-                    /* up swipe */ 
+                    console.log("Swiping up");
                 } else { 
-                    /* down swipe */
+                    console.log("Swiping down");
                 }                                                                 
             }
             /* reset values */
