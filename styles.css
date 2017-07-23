@@ -18,15 +18,22 @@
     height: 100%;
 }
 .imageContainerClass {
-    border: 1px solid #FF0000;
     width: 600px;
     height: 350px;
 }
 .button {
     color: #000000;
-    background-color: #CCCCCC;
     width: 40px;
     height: 40px;
     font-size: 36px;
     cursor: pointer;
+    background-size: 40px 40px;
+    background-repeat: no-repeat;
+}
+
+.backButton {
+    background-image: url('./assets/previous_button.png');
+}
+.nextButton {
+    background-image: url('./assets/next_button.png');
 }

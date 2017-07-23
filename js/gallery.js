@@ -18,18 +18,18 @@
         }
     }
 
-    function createContainer() {
+    function createGallery() {
         image = createImage(currentIndex);
         counterElement = document.getElementById('counter');
         if (counterElement) {
             counterElement.innerText = getCounterText();
         }
 
-        document.getElementById('main-container').appendChild(createButton("<", () => {
+        document.getElementById('main-container').appendChild(createButton("back", () => {
             onClickButton('left');
         }));
         document.getElementById('main-container').appendChild(image);
-        document.getElementById('main-container').appendChild(createButton(">", () => {
+        document.getElementById('main-container').appendChild(createButton("next", () => {
             onClickButton('right');
         }));
     }
@@ -66,10 +66,9 @@
         return `${currentIndex + 1} / ${MAX_IMAGES}`;
     }
 
-    function createButton(text, onButtonClick) {
+    function createButton(direction, onButtonClick) {
         let button = document.createElement('div');
-        button.className = 'button';
-        button.innerText = text;
+        button.className = direction === 'back' ? 'button backButton' : 'button nextButton';
         button.addEventListener('click', () => onButtonClick());
         return button;
     }
@@ -115,5 +114,5 @@
         }
 
     createImageArray(MAX_IMAGES);
-    createContainer();
+    createGallery();
 })()
