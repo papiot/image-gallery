@@ -1,9 +1,19 @@
-(function gallery() {
-    const BASE_IMAGE_URL = "http://placekitten.com/400/300?image=";
-    const MIN_IMAGES = 0;
-    const MAX_IMAGES = 30;
+const NUM_IMAGES = 10;
+const BASE_IMAGE_URL = "http://placekitten.com/400/300?image=";
 
-    let arrayOfImageSources = [];
+const arrayOfImageSources = [];
+
+function createImageArray(max) {
+    for (let i = 0; i < max; i++) {
+        arrayOfImageSources.push(BASE_IMAGE_URL + i);
+    }
+}
+
+var my_gallery = (function gallery(max, imageSources) {
+    const MIN_IMAGES = 0;
+    const MAX_IMAGES = max;
+
+    let arrayOfImageSources = imageSources;
     let currentIndex = 0;
     let image;
     let counterElement;
@@ -11,28 +21,6 @@
     // Used for touch events
     let xDown = null;                                                        
     let yDown = null;    
-
-    function createImageArray(max) {
-        for (let i = 0; i < max; i++) {
-            arrayOfImageSources.push(BASE_IMAGE_URL + i);
-        }
-    }
-
-    function createGallery() {
-        image = createImage(currentIndex);
-        counterElement = document.getElementById('counter');
-        if (counterElement) {
-            counterElement.innerText = getCounterText();
-        }
-
-        document.getElementById('main-container').appendChild(createButton("back", () => {
-            onClickButton('left');
-        }));
-        document.getElementById('main-container').appendChild(image);
-        document.getElementById('main-container').appendChild(createButton("next", () => {
-            onClickButton('right');
-        }));
-    }
 
     function updateImageSource(direction) {
         switch (direction) {
@@ -113,6 +101,26 @@
             return image;
         }
 
-    createImageArray(MAX_IMAGES);
-    createGallery();
-})()
+    return {
+        createGallery: function () {
+            image = createImage(currentIndex);
+            counterElement = document.getElementById('counter');
+            if (counterElement) {
+                counterElement.innerText = getCounterText();
+            }
+
+            document.getElementById('main-container').appendChild(createButton("back", () => {
+                onClickButton('left');
+            }));
+            document.getElementById('main-container').appendChild(image);
+            document.getElementById('main-container').appendChild(createButton("next", () => {
+                onClickButton('right');
+            }));
+        }
+    }
+
+})(NUM_IMAGES, arrayOfImageSources)
+
+createImageArray(NUM_IMAGES);
+my_gallery.createGallery();
+
